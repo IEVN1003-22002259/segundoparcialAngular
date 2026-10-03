@@ -1,0 +1,56 @@
+<div style="background-color: #f5f1e8; min-height: 100vh; padding: 30px; font-family: Arial;">
+    <div
+        style="background-color: white; width: 600px; max-width: 90%; margin: auto; padding: 25px; border-radius: 15px;">
+        <h1 style="text-align: center; color: #8b4513;font-size: 30px;">
+            Horóscopo Chino
+        </h1>
+
+        <h3 style="color: #8b4513;text-align: center;">Datos Personales:</h3>
+
+        <label>Nombre:</label><br>
+        <input type="text" [(ngModel)]="nombre" style="width: 95%; padding: 8px; margin: 5px 0 15px;">
+        <br>
+
+        <label>Apellido paterno:</label><br>
+        <input type="text" [(ngModel)]="apaterno" name="apaterno" style="width: 95%; padding: 8px; margin: 5px 0 15px;">
+        <br>
+        <label>Apellido materno:</label><br>
+        <input type="text" [(ngModel)]="amaterno" name="amaterno" style="width: 95%; padding: 8px; margin: 5px 0 15px;">
+
+        <br>
+        <label>Día de nacimiento:</label>
+        <input type="number" [(ngModel)]="dia" style="width: 70px; padding: 8px; margin: 5px;">
+        <label>Mes:</label>
+        <input type="number" [(ngModel)]="mes" style="width: 70px; padding: 8px; margin: 5px;">
+        <label>Año:</label>
+        <input type="number" [(ngModel)]="anio" style="width: 90px; padding: 8px; margin: 5px;">
+        <br><br>
+
+        <label>Sexo:</label><br><br>
+        <input type="radio" name="sexo" value="masculino" [(ngModel)]="sexo">
+        <label>Masculino</label><br>
+        <input type="radio" name="sexo" value="femenino" [(ngModel)]="sexo">
+        <label>Femenino</label>
+
+        <br><br>
+
+        <button
+            style="width: 100%; padding: 10px; background-color: #8b4513; color: white; border: none; border-radius: 8px; cursor: pointer;"
+            type="button" (click)="calcular()">
+            Imprimir
+        </button>
+    </div>
+
+
+    <div style="background-color: white; width: 600px; max-width: 90%; margin: 25px auto; padding: 25px; border-radius: 15px; text-align: center;">
+
+        <h2 style="color: #8b4513;">Datos personales</h2>
+        <p>Hola, {{nombre}} {{apaterno}} {{amaterno}}</p>
+        <p>Tienes: {{edad}} años</p>
+        <h2 style="color: #8b4513;font-size: medium;">
+            Tu signo zodiacal chino es: {{ signo }}
+        </h2>
+        <img *ngIf="mostrar" alt="imagen" style="display: block; margin: 10px auto; border-radius: 15px; width: 200px;" [src]="imagen">
+    </div>
+
+</div>
