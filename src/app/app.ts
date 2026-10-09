@@ -3,10 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { Zodiaco } from './formulario/zodiaco/zodiaco';
 import { Navbar } from './navbar/navbar';
-import { Distancia } from './formulario/distancia/distancia'
+import { Distancia } from './formulario/distancia/distancia';
+import { ListaEscuela } from './escuela/lista-escuela/lista-escuela';
+import { Cinepolis } from './escuela/cinepolis/cinepolis';
 
 @Component({
-  imports: [RouterOutlet, Zodiaco, Navbar, Distancia],
+  imports: [RouterOutlet, Zodiaco, Navbar, Distancia, ListaEscuela, Cinepolis],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

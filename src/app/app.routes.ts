@@ -13,14 +13,31 @@ export const routes: Routes = [
         path: 'zodiaco',
         loadComponent: () =>
           import('./formulario/zodiaco/zodiaco').then((c) => c.Zodiaco)
-      },
+      }
+    ]
+  },
+  {
+    path: 'escuela',
+    children: [
       {
-        path: 'listaescuela',
+        path: 'lista-escuela',
         loadComponent: () =>
           import('./escuela/lista-escuela/lista-escuela').then((c) => c.ListaEscuela)
       }
     ]
   },
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
-  { path: '**', redirectTo: 'admin' }
+  {
+    path: 'escuela',
+    children: [
+      {
+        path: 'cinepolis',
+        loadComponent: () =>
+          import('./escuela/cinepolis/cinepolis').then((c) => c.Cinepolis)
+      }
+    ]
+  },
+
+
+  { path: '', redirectTo: 'formulario/distancia', pathMatch: 'full' },
+  { path: '**', redirectTo: 'formulario/distancia' }
 ];
