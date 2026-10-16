@@ -1,11 +1,10 @@
 export interface Comprador {
 
   nombreCliente: string;
-  totalPagar: number;
+  compradores: number;
   boletasCompradas: number;
-  mensajeError: string;
   tarjetaCineco: string;
   descuento: number;
-
+  totalPagar: number;
 
 }

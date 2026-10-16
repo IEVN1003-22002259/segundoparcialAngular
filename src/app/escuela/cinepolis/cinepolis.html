@@ -1,94 +1,80 @@
-<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+<div class="min-h-screen bg-cover bg-center flex items-center justify-center p-4"
+    style="background-image: url('https://i.ytimg.com/vi/vsY8FKftiHE/maxresdefault.jpg');">
 
-    <h1 class="text-3xl font-bold text-blue-900 mb-6 text-center">
-        Cinépolis - Control de Boletas
-    </h1>
+    <div class="max-w-xl w-full mx-auto p-6 bg-white rounded-lg shadow-lg">
 
-    <form [formGroup]="formulario">
-
-        <h2 class="text-xl font-semibold text-blue-800 mb-4 border-b pb-2">Entradas</h2>
-
-        <div class="mb-5">
-            <label for="nombre" class="block mb-2 text-sm font-medium text-blue-700">
-                Nombre
-            </label>
-            <input type="text" id="nombre" formControlName="nombre"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Nombre del comprador" />
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-blue-900">
+                Cinépolis - Control de Boletas
+            </h1>
+            <button type="button" (click)="verVentas()"
+                class="text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-4 py-2">
+                Ver Ventas
+            </button>
         </div>
 
-        <div class="mb-5">
-            <label for="compradores" class="block mb-2 text-sm font-medium text-blue-700">
-                Cantidad Compradores
-            </label>
-            <input type="number" id="compradores" formControlName="compradores"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Ingresa la cantidad de compradores" />
-        </div>
+        <form [formGroup]="formulario">
 
-        <div class="mb-5">
-            <label class="block mb-2 text-sm font-medium text-blue-700">
-                Tarjeta Cineco
-            </label>
-            <div class="flex gap-6 mt-1">
-                <label class="flex items-center text-sm font-medium text-gray-700 cursor-pointer">
-                    <input type="radio" value="si" formControlName="tarjetaCineco" class="w-4 h-4 text-blue-600 mr-2" />
-                    Sí
-                </label>
-                <label class="flex items-center text-sm font-medium text-gray-700 cursor-pointer">
-                    <input type="radio" value="no" formControlName="tarjetaCineco" class="w-4 h-4 text-blue-600 mr-2" />
-                    No
-                </label>
+            <div class="mb-4">
+                <label class="block mb-1 text-sm font-medium text-blue-800">Nombre:</label>
+                <input type="text" formControlName="nombre" placeholder="Nombre del comprador"
+                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5" />
             </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 text-sm font-medium text-blue-800">Cantidad Compradores:</label>
+                <input type="number" formControlName="compradores" placeholder="Número de personas"
+                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5" />
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 text-sm font-medium text-blue-800">Tarjeta Cineco:</label>
+                <div class="flex gap-4">
+                    <label class="flex items-center text-sm">
+                        <input type="radio" value="si" formControlName="tarjetaCineco" class="mr-1" /> Sí
+                    </label>
+                    <label class="flex items-center text-sm">
+                        <input type="radio" value="no" formControlName="tarjetaCineco" class="mr-1" /> No
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 text-sm font-medium text-blue-800">Cantidad de Boletas:</label>
+                <input type="number" formControlName="boletas" placeholder="Cantidad de boletas"
+                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-2.5" />
+            </div>
+
+            <div *ngIf="mensajeError" class="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
+                {{ mensajeError }}
+            </div>
+
+            <div class="flex gap-3 mt-4">
+                <button type="button" (click)="procesar()"
+                    class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5">
+                    Procesar
+                </button>
+                <button type="button" (click)="salir()"
+                    class="text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                    Limpiar
+                </button>
+            </div>
+
+        </form>
+
+
+        <div class="mt-6 pt-4 border-t border-gray-200">
+            <h2 class="text-lg font-bold text-blue-900 mb-2">Salidas</h2>
+            <p><strong>Comprador:</strong> {{ nuevoComprador.nombreCliente }}</p>
+            <p><strong>Compradores:</strong> {{ nuevoComprador.compradores }}</p>
+            <p><strong>Boletas:</strong> {{ nuevoComprador.boletasCompradas }}</p>
+            <p><strong>Tarjeta Cineco:</strong> {{ nuevoComprador.tarjetaCineco }}</p>
+            <p><strong>Descuento:</strong> ${{ nuevoComprador.descuento }}</p>
+            <p class="text-blue-700 font-bold text-lg mt-1">
+                <strong>Total a Pagar:</strong> ${{ nuevoComprador.totalPagar }}
+            </p>
         </div>
 
-
-        <div class="mb-5">
-            <label for="boletas" class="block mb-2 text-sm font-medium text-blue-700">
-                Cantidad De Boletas
-            </label>
-            <input type="number" id="boletas" formControlName="boletas" min="1"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Ingresa la cantidad de boletas" />
-        </div>
-
-        <div *ngIf="nuevoComprador.mensajeError" class="p-3 mb-4 text-sm text-red-800 bg-red-100 rounded-lg">
-            {{ nuevoComprador.mensajeError }}
-        </div>
-
-        <div class="flex justify-start gap-3 mt-6">
-            <button type="button" (click)="procesar()"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                Procesar
-            </button>
-
-            <button type="button" (click)="salir()"
-                class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                Salir / Limpiar
-            </button>
-        </div>
-
-    </form>
-
-    <br><br>
-
-    <h2 class="mb-4 text-2xl font-bold text-blue-900 border-b pb-2">
-        Salidas
-    </h2>
-    <h3 class="text-base text-gray-800 my-1">
-        <strong>Nombre del comprador:</strong> {{ nuevoComprador.nombreCliente }}
-    </h3>
-    <h3 class="text-base text-gray-800 my-1">
-        <strong>Cantidad de boletas:</strong> {{ nuevoComprador.boletasCompradas }}
-    </h3>
-    <h3 class="text-base text-gray-800 my-1">
-        <strong>Tarjeta Cineco:</strong> {{ nuevoComprador.tarjetaCineco }}
-    </h3>
-    <h3 class="text-base text-gray-800 my-1">
-        <strong>Descuento aplicado:</strong> ${{ nuevoComprador.descuento }}
-    </h3>
-    <h3 class="text-lg text-blue-700 font-bold my-1">
-        <strong>Valor a Pagar:</strong> ${{ nuevoComprador.totalPagar }}
-    </h3>
+    </div>
 
 </div>

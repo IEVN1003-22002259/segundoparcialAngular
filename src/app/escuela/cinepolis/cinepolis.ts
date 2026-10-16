@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Comprador } from '../comprador';
+
 
 @Component({
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -12,80 +14,99 @@ import { Comprador } from '../comprador';
 export class Cinepolis {
 
   formulario!: FormGroup;
+  mensajeError: string = '';
+  ventas: Comprador[] = [];
 
   nuevoComprador: Comprador = {
     nombreCliente: '',
-    totalPagar: 0,
+    compradores: 0,
     boletasCompradas: 0,
-    mensajeError: '',
     tarjetaCineco: '',
-    descuento: 0
+    descuento: 0,
+    totalPagar: 0
   };
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
       nombre: new FormControl(''),
       compradores: new FormControl(''),
-      tarjetaCineco: new FormControl(''),
+      tarjetaCineco: new FormControl('no'),
       boletas: new FormControl('')
     });
+
+    let datos = localStorage.getItem('ventas');
+    if (datos) {
+      this.ventas = JSON.parse(datos);
+    }
   }
 
   procesar(): void {
-    const nombre = this.formulario.value.nombre;
-    const compradores = parseFloat(this.formulario.value.compradores);
-    const boletas = parseFloat(this.formulario.value.boletas);
-    const tieneTarjeta = this.formulario.value.tarjetaCineco;
+    let nombre = this.formulario.value.nombre;
+    let compradores = Number(this.formulario.value.compradores);
+    let boletas = Number(this.formulario.value.boletas);
+    let tarjeta = this.formulario.value.tarjetaCineco;
 
-    const maxPermitido = compradores * 7;
+    let maxBoletos = compradores * 7;
 
-    if (boletas > maxPermitido) {
-      this.nuevoComprador.mensajeError = `No es posible comprar ${boletas} boletas. El límite para ${compradores} persona(s) es de ${maxPermitido} boletas.`;
-      this.nuevoComprador.nombreCliente = '';
-      this.nuevoComprador.boletasCompradas = 0;
-      this.nuevoComprador.totalPagar = 0;
-      this.nuevoComprador.tarjetaCineco = '';
-      this.nuevoComprador.descuento = 0;
+    if (boletas > maxBoletos) {
+      this.mensajeError = 'No puedes comprar más de ' + maxBoletos + ' boletos para ' + compradores + ' persona(s).';
       return;
     }
 
-    this.nuevoComprador.mensajeError = '';
+    this.mensajeError = '';
 
     let subtotal = boletas * 12;
 
-    let descuento = 0;
+    let descuentoPorcentaje = 0;
     if (boletas > 5) {
-      descuento = 0.15;
+      descuentoPorcentaje = 0.15;
     } else if (boletas >= 3) {
-      descuento = 0.10;
+      descuentoPorcentaje = 0.10;
     }
 
-    let total = subtotal - (subtotal * descuento);
+    let total = subtotal - (subtotal * descuentoPorcentaje);
 
-    if (tieneTarjeta === 'si') {
+    if (tarjeta === 'si') {
       total = total - (total * 0.10);
-      this.nuevoComprador.tarjetaCineco = 'Sí';
-    } else {
-      this.nuevoComprador.tarjetaCineco = 'No';
     }
 
-    let dineroDescontado = subtotal - total;
+    let descuentoTotal = subtotal - total;
 
     this.nuevoComprador.nombreCliente = nombre;
+    this.nuevoComprador.compradores = compradores;
     this.nuevoComprador.boletasCompradas = boletas;
-    this.nuevoComprador.descuento = dineroDescontado;
+    this.nuevoComprador.tarjetaCineco = tarjeta === 'si' ? 'Sí' : 'No';
+    this.nuevoComprador.descuento = descuentoTotal;
     this.nuevoComprador.totalPagar = total;
+
+
+    this.ventas.push({ ...this.nuevoComprador });
+    localStorage.setItem('ventas', JSON.stringify(this.ventas));
+  }
+
+  verVentas(): void {
+    this.router.navigate(['/escuela/ventas']);
   }
 
   salir(): void {
-    this.ngOnInit();
+    this.formulario.reset({
+      nombre: '',
+      compradores: '',
+      tarjetaCineco: 'no',
+      boletas: ''
+    });
 
-    this.nuevoComprador.nombreCliente = '';
-    this.nuevoComprador.boletasCompradas = 0;
-    this.nuevoComprador.totalPagar = 0;
-    this.nuevoComprador.tarjetaCineco = '';
-    this.nuevoComprador.descuento = 0;
-    this.nuevoComprador.mensajeError = '';
+    this.mensajeError = '';
+    this.nuevoComprador = {
+      nombreCliente: '',
+      compradores: 0,
+      boletasCompradas: 0,
+      tarjetaCineco: '',
+      descuento: 0,
+      totalPagar: 0
+    };
   }
 
 }

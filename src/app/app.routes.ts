@@ -23,21 +23,19 @@ export const routes: Routes = [
         path: 'lista-escuela',
         loadComponent: () =>
           import('./escuela/lista-escuela/lista-escuela').then((c) => c.ListaEscuela)
-      }
-    ]
-  },
-  {
-    path: 'escuela',
-    children: [
+      },
       {
         path: 'cinepolis',
         loadComponent: () =>
           import('./escuela/cinepolis/cinepolis').then((c) => c.Cinepolis)
+      },
+      {
+        path: 'ventas',
+        loadComponent: () =>
+          import('./escuela/ventas/ventas').then((c) => c.Ventas)
       }
     ]
   },
-
-
   { path: '', redirectTo: 'formulario/distancia', pathMatch: 'full' },
   { path: '**', redirectTo: 'formulario/distancia' }
 ];
