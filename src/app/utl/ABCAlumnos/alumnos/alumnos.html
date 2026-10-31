@@ -1,0 +1,101 @@
+<div class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+
+    <!-- Encabezado -->
+    <div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Alumnos
+        </h1>
+    </div>
+
+    <div class="space-y-5">
+
+        <!-- Filtro (Siempre visible) -->
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4 items-center">
+
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-900 dark:text-white">
+                    Filtrar por:
+                </label>
+            </div>
+
+            <div class="md:col-span-4">
+                <input [(ngModel)]="listFilter" type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    placeholder="Ingrese nombre del alumno">
+            </div>
+
+        </div>
+
+        <!-- Texto del filtro SIEMPRE VISIBLE + Botón al lado -->
+        <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                Filtro: {{listFilter}}
+            </h3>
+
+            <!-- Botón que alterna la información -->
+            <button type="button" (click)="showImage()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                {{muestraImagen ? "Ocultar" : "Mostrar"}}
+            </button>
+        </div>
+
+        <!-- Tabla -->
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+            <table class="w-full text-sm text-left text-gray-600 dark:text-gray-300">
+
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
+
+                    <tr>
+                        <th scope="col" class="px-6 py-4">Matricula</th>
+                        <th scope="col" class="px-6 py-3">Nombre</th>
+                        <th scope="col" class="px-6 py-3">APaterno</th>
+                        <th scope="col" class="px-6 py-3">AMaterno</th>
+                        <th scope="col" class="px-6 py-3">Correo</th>
+                        <th scope="col" class="px-6 py-3 text-center">Editar</th>
+                        <th scope="col" class="px-6 py-3 text-center">Eliminar</th>
+                    </tr>
+
+                </thead>
+
+                <!-- AQUÍ se oculta y muestra la información de los alumnos -->
+                <tbody *ngIf="muestraImagen">
+
+                    <tr *ngFor="let alumno of dataSource | alumnoFilter:listFilter"
+                        class="bg-white border-b hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-600">
+
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{alumno.matricula}}
+                        </td>
+
+                        <td class="px-6 py-3">{{alumno.nombre}}</td>
+                        <td class="px-6 py-3">{{alumno.apaterno}}</td>
+                        <td class="px-6 py-3">{{alumno.amaterno}}</td>
+                        <td class="px-6 py-3">{{alumno.correo}}</td>
+
+                        <!-- Boton Editar -->
+                        <td class="px-6 py-3 text-center">
+                            <button type="button"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                Editar
+                            </button>
+                        </td>
+
+                        <!-- Boton Eliminar -->
+                        <td class="px-6 py-3 text-center">
+                            <button type="button"
+                                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
+                                Eliminar
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+</div>
